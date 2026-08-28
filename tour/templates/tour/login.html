@@ -1,0 +1,41 @@
+{% extends 'tour/layouts/main.html' %}
+
+{% load static %}
+
+{% block title %}
+        Tourist Destinations | Login
+{% endblock title %}
+
+{% block content %}
+<section class="my-4">
+        <div class="container">
+                <div class="row justify-content-center">
+                        <div class="col-5">
+                                <div class="card bg-dark bg-gradient py-4 text-light" style="box-shadow: 0px 0px 20px rgb(9, 186, 240); border-radius: 20px;">
+                                        <div class="my-4" style="display: flex; flex-direction: column; align-items: center;">
+                                                <h4 class="text-danger">Login Form</h4>
+                                                {% include 'tour/inc/message.html' %}
+                                        </div>
+                                        <form action="" method="post">
+                                                {% csrf_token %}
+                                                <div class="m-3">
+                                                        <label for="username" class="form-label">Username</label>
+                                                        <input type="text" name="username" id="username" class="form-control">
+                                                </div>
+                                                <div class="m-4">
+                                                        <label for="password" class="form-label">Password</label>
+                                                        <input type="password" name="password" id="password" class="form-control">
+                                                </div>
+
+                                                <div class="mb-4" style="display: flex; flex-direction: column; align-items: center;">
+                                                        <button type="submit" class="btn btn-outline-info">Login</button>
+                                                        <p class="text-info my-4">Don't have account?<a href="{% url 'register' %}" class="text-decoration-none"> Register</a></p>
+                                                </div>
+
+                                        </form>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</section>
+{% endblock content %}

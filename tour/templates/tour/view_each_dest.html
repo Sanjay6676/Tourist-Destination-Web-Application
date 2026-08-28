@@ -1,0 +1,143 @@
+{% extends 'tour/layouts/main.html' %}
+
+{% load static %}
+
+{% block title %}
+        Tourist Destinations | {{destination.place_name}}
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <h4 class="text-danger my-4">{{destination.place_name}}</h4>
+            {% include 'tour/inc/message.html' %}
+        </div>
+    </div>
+    <hr>
+</div>
+
+<section class="my-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                <div class="card p-3">
+                    <img src="{{destination.p_image.url}}" alt="{{destination.place_name}}" class="card-img-top" style="height: 300px;">
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <div class="card card-body">
+                    <h4 class="text-black">{{destination.place_name}}</h4>
+                    <p class="text-primary">{{destination.weather}}</p>
+                    <h6 class="text-dark">{{destination.location}}</h6>
+                    <p class="text-dark">{{destination.description}}</p>
+                    <div class="d-flex mt-5 justify-content-evenly">
+                        <div class="flex-row ms-auto">
+                            <input type="hidden" id="pid" value="{{destination.id}}" name="pid">
+                            <button class="btn btn-outline-danger mx-2" id="btnFav" data-bs-toggle="tooltip" data-bs-placement="top" title="LIKE"><i class="fa fa-heart"></i></button>
+                            <a href="{% url 'add_image' destination.id %}" class="btn btn-outline-info mx-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Add reviews"><i class="fa fa-add"></i></a>
+                            <a href="{{destination.map_link}}" class="btn btn-outline-success mx-2" data-bs-toggle="tooltip" data-bs-placement="top" title="View Location"><i class="fa fa-location"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row  justify-content-center">
+        <div class="col-6" style="display: flex; flex-direction: column; align-items: center;">
+            <h4 class="text-danger my-3">Share your experiences</h4>
+            <p class="text-primary">You can freely open your experience by the destinations we provide.</p>
+        </div>
+    </div>
+</div>
+<hr class="bg-black">
+
+{% if image_review %}
+<section class="my-4">
+    {% for review in image_review %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 p-2">
+                <div class="card p-4" style="height: 400px; border-radius: 10px; box-shadow: 0 0 10px rgb(238, 0, 255);">
+                    <img src="{{review.image.url}}" alt="{{review.destination.place_name}}" style="height: 350px;" class="card-img-top">
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-8 p-2">
+                <div class="card-body p-3" style="height: 400px; border-radius: 10px; box-shadow: 0 0 10px rgb(238, 0, 255);">
+                    {% if review.user == request.user %}
+                    <div class="my-2">
+                        <a href="{% url 'edit_image' review.id %}" class="btn btn-outline-info"><i class="fa fa-pen"></i></a>
+                        <a href="{% url 'delete_dest_image' review.id %}" onclick="return confirm('Are you sure to delete?')" class="btn btn-outline-danger float-end" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Reviews"><i class="fa fa-trash"></i></a>
+                    </div>
+                    {% endif %}
+                    <h4 class="text-dark">Reviewed by : <span class="text-danger" style="font-size: 20px;">{{review.user.username}}</span></h4>
+                    <p class="text-black">{{review.review}}</p>
+                    <p class="text-muted">{{review.uploaded_at | date:'M d,Y'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+{% else %}
+<div class="d-flex justify-content-center">
+    <div class="flex-column p-2">
+        <h5 class="text-danger">This Destinations haven't explore yet</h5>
+    </div>
+</div>
+{% endif %}
+
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = cookie.substring(name.length + 1);
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    document.addEventListener('DOMContentLoaded',function(){
+        const btnFav = document.getElementById('btnFav');
+
+        btnFav.addEventListener('click',function(){
+            let postObj = {
+                'pid' : pid.value,
+            };
+
+            console.log(postObj);
+
+            fetch('/addtofav/',{
+                method : 'POST',
+                credentials: 'same-origin',
+                headers : {
+                    'Accept' : 'application/json',
+                    'X-Requested-With' : 'XMLHttpRequest',
+                    'X-CSRFToken' : csrftoken,
+                },
+                body : JSON.stringify(postObj)
+            }).then(response => response.json())
+            .then(data => {
+                alert(data['status']);
+            })
+            .catch(error => {
+                console.error('Error:',error);
+            });
+        });
+    });
+</script>
+
+{% endblock content %}
+
+
+

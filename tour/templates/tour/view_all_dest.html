@@ -1,0 +1,46 @@
+{% extends 'tour/layouts/main.html' %}
+
+{% load static %}
+
+{% block title %}
+        Tourist Destinations | Destination
+{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row  justify-content-center">
+        <div class="col-6" style="display: flex; flex-direction: column; align-items: center;">
+            <h4 class="text-danger my-3">Your Destinations</h4>
+            <p class="text-primary">You can find your dream location , and can add reviews on them.</p>
+            {% include 'tour/inc/message.html' %}
+        </div>
+    </div>
+</div>
+<hr class="bg-black">
+
+<section class="my-2">
+    <div class="container">
+        <div class="row">
+            {% if destination %}
+            {% for dest in destination %}
+            <div class="col-4">
+                <div class="card p-3 " style="height: 420px; border-radius: 10px; box-shadow: 0 0 10px rgb(39, 102, 104);">
+                    <a href="{% url 'view_each_dest' dest.place_name %}" class="text-decoration-none">
+                        <img src="{{dest.p_image.url}}" alt="{{dest.place_name}}" class="card-img-top" style="height: 300px;">
+                        <div class="card-body" >
+                            <h5 class="card-title text-black">{{dest.place_name}}</h5>
+                            <p class="card-text">{{dest.state}}</p>
+                        </div>
+                    </a>
+                </div>
+                <br>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

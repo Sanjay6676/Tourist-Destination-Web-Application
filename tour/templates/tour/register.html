@@ -1,0 +1,67 @@
+{% extends 'tour/layouts/main.html' %}
+
+{% load static %}
+
+{% block title %}
+        Tourist Destinations | Registeration
+{% endblock title %}
+
+{% block content %}
+
+<section class="my-4">
+        <div class="container">
+                <div class="row justify-content-center">
+                        <div class="col-6">
+                                <div class="card bg-dark bg-gradient py-4 text-light" style="box-shadow: 0px 0px 20px rgb(9, 186, 240); border-radius: 20px;">
+                                        <div class="my-4" style="display: flex; flex-direction: column; align-items: center;">
+                                                <h4 class="text-danger">Registration Form</h4>
+                                                {% include 'tour/inc/message.html' %}
+                                        </div>
+                                        <form action="" method="post">
+                                                {% csrf_token %}
+                                                <div class="m-3">
+                                                        <label for="" class="form-label">Username</label>
+                                                        {{form.username}}
+
+                                                        {% if form.errors.username %}
+                                                        <label for="" class="text-danger">{{form.errors.username}}</label>
+                                                        {% endif %}
+                                                </div>
+                                                <div class="m-4">
+                                                        <label for="" class="form-label">Email id</label>
+                                                        {{form.email}}
+
+                                                        {% if form.errors.email %}
+                                                        <label for="" class="text-danger">{{form.errors.email}}</label>
+                                                        {% endif %}
+                                                </div>
+                                                <div class="m-4">
+                                                        <label for="" class="form-label">Password</label>
+                                                        {{form.password1}}
+
+                                                        {% if form.errors.password %}
+                                                        <label for="" class="text-danger">{{form.errors.password1}}</label>
+                                                        {% endif %}
+                                                </div>
+                                                <div class="m-4">
+                                                        <label for="" class="form-label">Confirm Password</label>
+                                                        {{form.password2}}
+
+                                                        {% if form.errors.password2 %}
+                                                        <label for="" class="text-danger">{{form.errors.password2}}</label>
+                                                        {% endif %}
+                                                </div>
+
+                                                <div class="mb-4" style="display: flex; flex-direction: column; align-items: center;">
+                                                        <button type="submit" class="btn btn-outline-info">Register</button>
+                                                        <p class="text-info my-4">Already have an account?<a href="{% url 'login' %}" class="text-decoration-none"> Login</a></p>
+                                                </div>
+
+                                        </form>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</section>
+
+{% endblock content %}

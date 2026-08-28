@@ -1,0 +1,49 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-gradient" style="background-color: rgb(39, 102, 104);">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" style="font-style: inherit;"><i class="fa fa-plane"></i> FlyExp</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'view_profile' %}"> <i class="fa fa-user"></i> {{request.user.username}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'view_all_dest' %}">Destinations</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'fav_page' %}">My Favorites</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}" onclick="return confirm('Are you sure to logout?')"><i class="fa fa-right-to-bracket"></i> Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Sign-in
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+            <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+            <!-- <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+          </ul>
+        </li>
+        {% endif %}
+        <!-- <li class="nav-item">
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </li> -->
+      </ul>
+      <form class="d-flex" role="search" action="{% url 'search_dest' %}">
+        <input class="form-control me-2" name="q" type="search" placeholder="Search Destinations" aria-label="Search"/>
+        <button class="btn btn-outline-info" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>

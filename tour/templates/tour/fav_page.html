@@ -1,0 +1,63 @@
+{% extends 'tour/layouts/main.html' %}
+
+{% load static %}
+
+{% block title %}
+        Tourist Destinations | Favorites
+{% endblock title %}
+
+{% block content %}
+
+<section class="py-4 my-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="mb-3">Favorite Destination</h4>
+                <hr style="background-color: whitesmoke;">
+            </div>
+
+            {% include 'tour/inc/message.html' %}
+
+            <table class="table table-success table-bordered  table-hover">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Place Name</th>
+                        <th>Weather</th>
+                        <th>State</th>
+                        <th>District</th>
+                        <th>View</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dest in fav %}
+    
+                    <tr>
+                        <td><img src="{{dest.destination.p_image.url}}" height="75px" alt="{{dest.destination.place_name}}"></td>
+                        <td>{{dest.destination.place_name}}</td>
+                        <td>{{dest.destination.weather}}</td>
+                        <td>{{dest.destination.state}}</td>
+                        <td>{{dest.destination.district}}</td>
+                        <td>
+                            <a href="{% url 'view_each_dest' dest.destination.place_name %}" type="button" class="btn btn-outline-info btn-sm">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'remove_fav' dest.id %}" type="button" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure to delete this item from your Favorites?')">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                        <!-- <td></td> -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+             </table>
+        </div>
+    </div>
+
+    
+</section>
+
+{% endblock content %}

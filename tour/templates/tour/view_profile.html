@@ -1,0 +1,98 @@
+{% extends 'tour/layouts/main.html' %}
+
+{% load static %}
+
+{% block title %}
+        Tourist Destinations | Profile
+{% endblock title %}
+
+{% block content %}
+
+<section class="my-3">
+    <div class="d-flex justify-content-center">
+        <div class="flex-column p-2">
+            <h4 class="text-danger">{{profile.user.username}}</h4>
+            <h5 class="text-primary">View Profile</h5>
+            {% include 'tour/inc/message.html' %}
+        </div>
+    </div>
+    <hr class="bg-black">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-6">
+                <table class="table table-secondary table-bordered  table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>contact no</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{profile.user.username}}</td>
+                            <td>{{profile.f_name}} {{profile.l_name}}</td>
+                            <td>{{profile.contact_no}}</td>
+                        </tr>
+                        <tr">
+                            <td colspan="3" ><a href="{% url 'edit_profile' %}" class="btn btn-outline-success">Edit</a></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<hr class="">
+
+<section class="my-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-4 d-flex justify-content-center">
+                <h4 class="text-primary">My experiences</h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if dest_image %}
+<section class="my-4">
+    {% for image in dest_image %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 p-2">
+                <div class="card p-4" style="height: 400px; border-radius: 10px; box-shadow: 0 0 10px rgb(39, 102, 104);">
+                    <img src="{{image.image.url}}" alt="{{image.destination.place_name}}" style="height: 350px;" class="card-img-top">
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-8 p-2">
+                <div class="card-body p-3" style="height: 400px; border-radius: 10px; box-shadow: 0 0 10px rgb(39, 102, 104);">
+                    <h4 class="text-danger">Destination Name: <span class="text-success">{{image.destination.place_name}}</span></h4>
+                    {% if image.user == request.user %}
+                    <div class="my-2">
+                        <a href="{% url 'edit_image' image.id %}" class="btn btn-outline-info"><i class="fa fa-pen"></i></a>
+                        <a href="{% url 'delete_dest_image' image.id %}" onclick="return confirm('Are you sure to delete?')" class="btn btn-outline-danger float-end" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Reviews"><i class="fa fa-trash"></i></a>
+                    </div>
+                    {% endif %}
+                    <h4 class="text-dark">Reviewed by : <span class="text-danger" style="font-size: 20px;">{{image.user.username}}</span></h4>
+                    <p class="text-black">{{image.review}}</p>
+                    <p class="text-muted">{{image.uploaded_at | date:'M d,Y'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+</section>
+{% else %}
+<div class="d-flex justify-content-center">
+    <div class="flex-column p-2">
+        <h5 class="text-danger">This Profile doesn't have any posts yet</h5>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock content %}
