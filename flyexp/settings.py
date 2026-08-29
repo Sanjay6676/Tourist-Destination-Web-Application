@@ -40,6 +40,10 @@ ALLOWED_HOSTS = [
     'localhost',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://tourist-destination-web-application-production.up.railway.app'
+]
+
 
 # Application definition
 
